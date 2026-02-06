@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To My Favorite Person</title>
+    <style>
+        body { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            margin: 0; 
+            font-family: 'Comic Sans MS', cursive, sans-serif; 
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative; 
+            width: 250px; 
+            height: 250px; 
+            margin-bottom: 10px;
+        }
+
+        .gif {
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            border-radius: 20px; 
+            opacity: 0; 
+        }
+
+        .looping { animation: back 16s infinite; }
+
+        #img1 { animation-delay: 0s; }
+        #img2 { animation-delay: 4s; }
+        #img3 { animation-delay: 8s; }
+        #img4 { animation-delay: 12s; }
+
+        @keyframes back {
+            0%, 20% { opacity: 1; }  
+            25%, 100% { opacity: 0; } 
+        }
+
+        .final-show {
+            animation: none !important;
+            opacity: 1 !important;
+            z-index: 100;
+        }
+
+        .message { color: #ad1457; font-size: 1.2rem; text-align: center; margin: 15px; min-height: 1.5em; }
+        .btn {
+            width: 160px;      
+            height: 70px;     
+            display: flex;     
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px; 
+            cursor: pointer; 
+            border: none;
+            font-weight: bold; 
+            font-size: 26px;   
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .yes { 
+            background-color: #ff80ab; 
+            color: white; 
+            margin-bottom: 20px; 
+            z-index: 1; 
+        }
+
+        .no { 
+            background-color: #cfd8dc; 
+            color: #546e7a; 
+            position: absolute; 
+            z-index: 10; 
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-container">
+        <img id="img1" class="gif looping" src="https://media.tenor.com/Tnx94gENp_0AAAAj/kiss-good-morning.gif">
+        <img id="img2" class="gif looping" src="https://i.pinimg.com/originals/42/76/f1/4276f1ed721935be242e945200eb6679.gif">
+        <img id="img3" class="gif looping" src="https://media.tenor.com/Y8668H66O38AAAAj/milk-and-mocha.gif">
+        <img id="img4" class="gif looping" src="https://media.tenor.com/Z9_P973S-mUAAAAj/milk-and-mocha-bear-hearts.gif">
+        
+        <img id="pouty-bear" class="gif" src="https://i.pinimg.com/originals/81/0e/6a/810e6aac06e6d5f45bec88c23cb14580.gif">
+        <img id="heart-bear" class="gif" src="https://i.pinimg.com/originals/7d/56/1f/7d561fb95754546b56d2c0ce5cfb9ce4.gif">
+    </div>
+
+    <div class="message" id="msg">please tell me you forgive me ❤️..for my silencee..</div>
+
+    <button class="yes btn" id="yesBtn">Yes</button>
+    <button class="no btn" id="noBtn">No</button>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const msg = document.getElementById('msg');
+        
+        const loopGifs = document.querySelectorAll('.looping');
+        const pouty = document.getElementById('pouty-bear');
+        const heart = document.getElementById('heart-bear');
+
+        noBtn.style.top = (yesBtn.offsetTop + 100) + "px"; 
+        noBtn.style.left = (window.innerWidth / 2 - 80) + "px"; 
+
+        function stopTheLoop() {
+            loopGifs.forEach(g => g.style.display = 'none');
+        }
+
+        noBtn.addEventListener('mouseover', () => {
+            stopTheLoop();
+            pouty.classList.add('final-show');
+            heart.classList.remove('final-show'); 
+            
+            msg.innerText = "Don't be like that... 🥺";
+
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        });
+
+        yesBtn.addEventListener('click', () => {
+            stopTheLoop();
+            pouty.classList.remove('final-show'); 
+            heart.classList.add('final-show');
+            
+            msg.innerText = "Yay! You're the best! ❤️";
+            noBtn.style.display = "none";
+            yesBtn.style.display = "none";
+            
+            setTimeout(() => {
+                msg.innerHTML = "I've missed you! 🥰";
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
