@@ -13,6 +13,7 @@
             height: 100vh; 
             margin: 0; 
             font-family: 'Comic Sans MS', cursive, sans-serif; 
+            background-color: #fce4ec; 
             overflow: hidden;
         }
 
@@ -51,9 +52,16 @@
             z-index: 100;
         }
 
-        .message { color: #ad1457; font-size: 1.2rem; text-align: center; margin: 15px; min-height: 1.5em; }
+        .message { 
+            color: #ad1457; 
+            font-size: 1.2rem; 
+            text-align: center; 
+            margin: 15px; 
+            min-height: 1.5em; 
+        }
+
         .btn {
-            width: 160px;      
+            width: 160px;       
             height: 70px;     
             display: flex;     
             align-items: center;
@@ -80,7 +88,6 @@
             position: absolute; 
             z-index: 10; 
         }
-
     </style>
 </head>
 <body>
@@ -104,10 +111,12 @@
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
         const msg = document.getElementById('msg');
-        
         const loopGifs = document.querySelectorAll('.looping');
         const pouty = document.getElementById('pouty-bear');
         const heart = document.getElementById('heart-bear');
+
+        const formAction = "https://formspree.io/f/xykdyeqq";
+        let noNotified = false;
 
         noBtn.style.top = (yesBtn.offsetTop + 100) + "px"; 
         noBtn.style.left = (window.innerWidth / 2 - 80) + "px"; 
@@ -117,10 +126,18 @@
         }
 
         noBtn.addEventListener('mouseover', () => {
+            if (!noNotified) {
+                fetch(formAction, {
+                    method: "POST",
+                    body: JSON.stringify({ event: "He's playing hard to get... (Hovered No)" }),
+                    headers: { 'Accept': 'application/json' }
+                });
+                noNotified = true;
+            }
+
             stopTheLoop();
             pouty.classList.add('final-show');
             heart.classList.remove('final-show'); 
-            
             msg.innerText = "Don't be like that... 🥺";
 
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
@@ -130,6 +147,12 @@
         });
 
         yesBtn.addEventListener('click', () => {
+            fetch(formAction, {
+                method: "POST",
+                body: JSON.stringify({ status: "SUCCESS! He clicked YES! ❤️" }),
+                headers: { 'Accept': 'application/json' }
+            });
+
             stopTheLoop();
             pouty.classList.remove('final-show'); 
             heart.classList.add('final-show');
